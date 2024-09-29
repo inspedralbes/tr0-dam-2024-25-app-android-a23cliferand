@@ -1,47 +1,62 @@
 package com.example.tr0_dam_2024_25_app_android_a23cliferand
 
-import android.os.Bundle
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button
+import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.tr0_dam_2024_25_app_android_a23cliferand.ui.theme.Tr0dam202425appandroida23cliferandTheme
+import org.json.JSONArray
+import java.net.HttpURLConnection
+import java.net.URL
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            Tr0dam202425appandroida23cliferandTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+        setContentView(R.layout.menu)
+
+        val button1 = findViewById<Button>(R.id.button1)
+        val button2 = findViewById<Button>(R.id.button2)
+
+        button1.setOnClickListener {
+            try {
+                val intent = Intent(this, TheGames::class.java)
+                startActivity(intent)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Toast.makeText(this, "Error launching TheGames activity", Toast.LENGTH_SHORT).show()
             }
         }
+
+        button2.setOnClickListener {
+            finishAffinity()
+        }
+
     }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    Tr0dam202425appandroida23cliferandTheme {
-        Greeting("Android")
+    fun fetchJsonArray(urlString: String): ArrayList<String>? {
+        val resultArray = ArrayList<String>()
+
+        try {
+            val url = URL(urlString)
+            val connection = url.openConnection() as HttpURLConnection
+            connection.requestMethod = "GET"
+            if (connection.responseCode == HttpURLConnection.HTTP_OK) {
+                val inputStream = connection.inputStream
+                val response = inputStream.bufferedReader().use { it.readText() }
+
+                val jsonArray = JSONArray(response)
+
+                for (i in 0 until jsonArray.length()) {
+                    val item = jsonArray.getString(i)
+                    resultArray.add(item)
+                }
+            }
+
+            connection.disconnect()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return resultArray
     }
 }
