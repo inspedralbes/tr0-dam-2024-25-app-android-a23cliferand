@@ -8,6 +8,9 @@
       <SelectionState runConfigName="TheGames">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
+      <SelectionState runConfigName="AndroidStudioProjects.tr0-dam-2024-25-app-android-a23cliferand.app">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
     </selectionStates>
   </component>
 </project>
