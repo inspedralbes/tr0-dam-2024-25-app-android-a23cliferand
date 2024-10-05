@@ -1,18 +1,3 @@
-/*
- * Copyright (C) 2023 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.example.tr0_dam_2024_25_app_android_a23cliferand
 
 import androidx.annotation.StringRes
@@ -27,7 +12,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
+import androidx.compose.foundation.Image
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
+import com.example.tr0_dam_2024_25_app_android_a23cliferand.ui.theme.fontFamily
+import kotlin.system.exitProcess
 
 
 enum class GameScreen(@StringRes val title: Int) {
@@ -36,58 +25,68 @@ enum class GameScreen(@StringRes val title: Int) {
     //Pickup(title = R.string.choose_pickup_date),
     //Summary(title = R.string.order_summary)
 }
-
-
 @Composable
 fun MainMenu() {
-    // Contenedor principal
+    val image = painterResource(R.drawable.rajoy)
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
-        verticalArrangement = Arrangement.Top,
+        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
+
     ) {
-        // Título del menú
+
+
         Text(
-            text = "Menú Principal",
-            fontSize = 24.sp,
+            text = "TR0 Mola Mazo",
+            fontSize = 60.sp,
             fontWeight = FontWeight.Bold,
             color = Color.Black,
+            fontFamily = fontFamily,
+            textAlign = TextAlign.Center,
             modifier = Modifier
                 .padding(top = 32.dp)
-                .align(Alignment.CenterHorizontally) // Centra el texto horizontalmente
+                .align(Alignment.CenterHorizontally)
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+
+        Image(
+            painter = image,
+            contentDescription = null,
+            modifier = Modifier
+                .size(250.dp)
+
         )
 
-        // Espaciador
-        Spacer(modifier = Modifier.height(100.dp))
 
-        // Primer botón
+        Spacer(modifier = Modifier.height(16.dp))
+
+
         Button(
             onClick = { /* Acción del botón 1 */ },
             modifier = Modifier
                 .align(Alignment.CenterHorizontally) // Centra el botón horizontalmente
-                .padding(top = 0.dp) // Espaciado superior (puedes modificarlo)
         ) {
-            Text(text = "Botón 1")
+            Text(text = "Iniciar", fontFamily = fontFamily)
         }
 
-        // Espaciador entre botones
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Segundo botón
         Button(
-            onClick = { /* Acción del botón 2 */ },
+            onClick = { exitProcess(0)  },
             modifier = Modifier
                 .align(Alignment.CenterHorizontally) // Centra el botón horizontalmente
         ) {
-            Text(text = "Botón 2")
+            Text(text = "Sortir", fontFamily = fontFamily)
         }
     }
 }
+
 @Preview(showBackground = true)
 @Composable
-fun PreviewMainMenu() {
-    MainMenu()
-}
-
+fun RunMainMenu() {
+        MainMenu()
+    }

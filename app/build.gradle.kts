@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.8.10"
 }
 
 android {
@@ -63,6 +64,8 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.transport.runtime)
+    implementation(libs.firebase.crashlytics.buildtools)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -70,4 +73,13 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    implementation("androidx.compose.ui:ui-text-google-fonts:1.7.0")
+
+
+    implementation ("io.ktor:ktor-client-core:2.0.0")
+    implementation ("io.ktor:ktor-client-cio:2.0.0")
+    implementation ("io.ktor:ktor-client-json:2.0.0")
+    implementation ("io.ktor:ktor-client-serialization:2.0.0")
+    implementation ("io.ktor:ktor-serialization-kotlinx-json:2.0.0")
 }
