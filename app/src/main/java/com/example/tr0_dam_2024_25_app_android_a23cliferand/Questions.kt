@@ -12,97 +12,119 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.Image
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import coil.compose.rememberAsyncImagePainter
+import com.example.tr0_dam_2024_25_app_android_a23cliferand.data.Pregunta
+import com.example.tr0_dam_2024_25_app_android_a23cliferand.data.Resposta
 import com.example.tr0_dam_2024_25_app_android_a23cliferand.ui.theme.fontFamily
-import kotlin.system.exitProcess
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 
-
-//enum class GameScreen(@StringRes val title: Int) {
-    //Menu(title = R.string.app_name),
-    //Flavor(title = R.string.choose_flavor),
-    //Pickup(title = R.string.choose_pickup_date),
-    //Summary(title = R.string.order_summary)
-//}
+val respuestasSeleccionadas = mutableListOf<Pair<String, Int>>()
 
 @Composable
-fun Questions() {
-    val image = painterResource(R.drawable.rajoy)
+fun Questions(preguntas: List<Pregunta>) {
+    println("Questions function started with ${preguntas.size} questions")
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Top, // Alineación superior para que el contenido esté desde arriba
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        // Título
-        Text(
-            text = "TR0 Mola Mazo",
-            fontSize = 40.sp, // Tamaño ajustado para caber mejor
-            fontWeight = FontWeight.Bold,
-            color = Color.Black,
-            fontFamily = fontFamily,
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-                .padding(top = 32.dp)
-                .align(Alignment.CenterHorizontally)
-        )
+    var preguntaActualIndex by remember { mutableStateOf(0) }
+    var mostrarFinal by remember { mutableStateOf(false) }
 
-        Spacer(modifier = Modifier.height(24.dp))
+    if (mostrarFinal) {
+        MainMenu()
+        return
+    }
+//Guardamos to
 
-        // Imagen debajo del título
-        Image(
-            painter = image,
-            contentDescription = null,
-            modifier = Modifier
-                .size(250.dp)
-        )
+            val pregunta = preguntas[preguntaActualIndex]
 
-        Spacer(modifier = Modifier.height(24.dp))
-
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Row(
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                modifier = Modifier.fillMaxWidth()
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Botón 1
-                Button(onClick = { /* Acción del botón 1 */ }) {
-                    Text(text = "Iniciar", fontFamily = fontFamily)
-                }
+                Text(
+                    text = pregunta.pregunta,
+                    fontSize = 40.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black,
+                    fontFamily = fontFamily,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .padding(top = 32.dp)
+                        .align(Alignment.CenterHorizontally)
+                )
 
-                // Botón 2
-                Button(onClick = { /* Acción del botón 2 */ }) {
-                    Text(text = "Opción 2", fontFamily = fontFamily)
-                }
-            }
+                Spacer(modifier = Modifier.height(24.dp))
 
-            Spacer(modifier = Modifier.height(16.dp))
+                Image(
+                    painter = rememberAsyncImagePainter(model = pregunta.imatge),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(250.dp)
+                )
 
-            Row(
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                // Botón 3
-                Button(onClick = { /* Acción del botón 3 */ }) {
-                    Text(text = "Opción 3", fontFamily = fontFamily)
-                }
+                Spacer(modifier = Modifier.height(24.dp))
 
-                // Botón 4
-                Button(onClick = { /* Acción del botón 4 */ }) {
-                    Text(text = "Salir", fontFamily = fontFamily)
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    pregunta.respostes.chunked(2).forEach { rowRespostes ->
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(
+                                8.dp,
+                                Alignment.CenterHorizontally
+                            ),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(8.dp)
+                        ) {
+                            rowRespostes.forEach { resposta ->
+                                Button(
+                                    onClick = {
+                                        // Guardar el id de la pregunta y la respuesta en un arraylist
+                                        respuestasSeleccionadas.add(Pair(pregunta.id, resposta.id))
+                                        println(respuestasSeleccionadas)
+
+                                        val siguientePregunta = preguntaActualIndex + 1
+                                        if (siguientePregunta < preguntas.size) {
+                                            preguntaActualIndex = siguientePregunta
+                                        } else {
+                                            mostrarFinal = true
+                                        }
+                                    },
+                                    modifier = Modifier.size(100.dp)
+                                ) {
+                                    Text(text = resposta.resposta, fontFamily = fontFamily)
+                                }
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(16.dp))
+                    }
                 }
             }
         }
-    }
-}
-
 @Preview(showBackground = true)
 @Composable
 fun RunQuestions() {
-    Questions()
+    val samplePregunta = listOf(
+        Pregunta(
+            id = "1",
+            pregunta = "Sample Question",
+            respostes = listOf(
+                Resposta(id = 1, resposta = "Option 1"),
+                Resposta(id = 2, resposta = "Option 2"),
+                Resposta(id = 3, resposta = "Option 3"),
+                Resposta(id = 4, resposta = "Option 4")
+            ),
+            imatge = null,
+            text = null
+        )
+    )
+    Questions(samplePregunta)
 }

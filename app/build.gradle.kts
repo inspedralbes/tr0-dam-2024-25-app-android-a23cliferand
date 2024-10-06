@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.8.10"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.8.0"
 }
 
 android {
@@ -76,6 +76,13 @@ dependencies {
 
     implementation("androidx.compose.ui:ui-text-google-fonts:1.7.0")
 
+    implementation ("com.google.code.gson:gson:2.10.1")
+
+    implementation ("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
+    implementation ("androidx.appcompat:appcompat:1.6.1")
+    implementation ("com.google.android.material:material:1.9.0")
+    implementation("io.coil-kt:coil-compose:2.4.0")
 
     implementation ("io.ktor:ktor-client-core:2.0.0")
     implementation ("io.ktor:ktor-client-cio:2.0.0")
