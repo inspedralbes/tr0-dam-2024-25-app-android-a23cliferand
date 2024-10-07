@@ -21,20 +21,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.navigation.NavController
 
-val respuestasSeleccionadas = mutableListOf<Pair<String, Int>>()
+
+data class RespuestaSeleccionada(val preguntaID: String, val respostaID: Int)
+val respuestasSeleccionadas = mutableListOf<RespuestaSeleccionada>()
 
 @Composable
-fun Questions(preguntas: List<Pregunta>) {
-    println("Questions function started with ${preguntas.size} questions")
+fun Questions(navController: NavController, preguntas: List<Pregunta>) {
+
+    respuestasSeleccionadas.clear()
 
     var preguntaActualIndex by remember { mutableStateOf(0) }
-    var mostrarFinal by remember { mutableStateOf(false) }
 
-    if (mostrarFinal) {
-        MainMenu()
-        return
-    }
+
 //Guardamos to
 
             val pregunta = preguntas[preguntaActualIndex]
@@ -87,15 +87,15 @@ fun Questions(preguntas: List<Pregunta>) {
                             rowRespostes.forEach { resposta ->
                                 Button(
                                     onClick = {
-                                        // Guardar el id de la pregunta y la respuesta en un arraylist
-                                        respuestasSeleccionadas.add(Pair(pregunta.id, resposta.id))
+                                        // Guardar el id de la pregunta y la respuesta
+                                        respuestasSeleccionadas.add(RespuestaSeleccionada(pregunta.id, resposta.id))
                                         println(respuestasSeleccionadas)
 
                                         val siguientePregunta = preguntaActualIndex + 1
                                         if (siguientePregunta < preguntas.size) {
                                             preguntaActualIndex = siguientePregunta
                                         } else {
-                                            mostrarFinal = true
+                                            navController.navigate("final")
                                         }
                                     },
                                     modifier = Modifier.size(100.dp)
@@ -126,5 +126,5 @@ fun RunQuestions() {
             text = null
         )
     )
-    Questions(samplePregunta)
+    //Questions(samplePregunta)
 }

@@ -18,8 +18,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.tr0_dam_2024_25_app_android_a23cliferand.data.Pregunta
-import com.example.tr0_dam_2024_25_app_android_a23cliferand.data.getJson
 import com.example.tr0_dam_2024_25_app_android_a23cliferand.ui.theme.fontFamily
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -27,11 +28,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.system.exitProcess
 
-// Obtener preguntas del servidor
-
 
 @Composable
-fun MainMenu() {
+fun MainMenu(navController: NavController) {
+
     var startGame by remember { mutableStateOf(false) }
     var loadedQuestions by remember { mutableStateOf<List<Pregunta>?>(null) }
 
@@ -40,20 +40,10 @@ fun MainMenu() {
             println("No hi ha preguntes")
             return
         } else {
-            Questions(loadedQuestions!!)
+            Questions(navController, loadedQuestions!!)
         }
     } else {
         val image = painterResource(R.drawable.rajoy)
-
-//    if (startGame) {
-//        if (preguntes == null || preguntes.isEmpty()) {
-//            println("No hi ha preguntes")
-//            return
-//        }
-//        else{
-//        Questions(preguntes)
-//        }
-//    } else {
 
         Column(
             modifier = Modifier
@@ -88,12 +78,9 @@ fun MainMenu() {
                 onClick = {
                     CoroutineScope(Dispatchers.IO).launch {
                         try {
-                            val url = "http://192.168.1.137:3000/getQuestionsAndroid"
-                            val preguntes = getJson(url)
                             withContext(Dispatchers.Main) {
-                                // Update state to trigger recomposition
-                                startGame = true
                                 loadedQuestions = preguntes
+                                navController.navigate("questions")
                             }
                         } catch (e: Exception) {
                             e.printStackTrace()
@@ -122,5 +109,5 @@ fun MainMenu() {
 @Preview(showBackground = true)
 @Composable
 fun RunMainMenu() {
-        MainMenu()
+        MainMenu(navController = rememberNavController())
     }
