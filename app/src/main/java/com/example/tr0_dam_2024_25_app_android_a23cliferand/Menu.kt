@@ -32,6 +32,8 @@ import kotlin.system.exitProcess
 @Composable
 fun MainMenu(navController: NavController) {
 
+    respuestasSeleccionadas.clear()
+
     var startGame by remember { mutableStateOf(false) }
     var loadedQuestions by remember { mutableStateOf<List<Pregunta>?>(null) }
 

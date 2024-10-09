@@ -14,13 +14,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-val url = "http://192.168.1.134:3000/getQuestionsAndroid"
+val url = "http://a23cliferand.dam.inspedralbes.cat:26969/getQuestionsAndroid"
 var preguntes = emptyList<Pregunta>()
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // Usar una coroutine para realizar operaciones de red
         CoroutineScope(Dispatchers.IO).launch {
             preguntes = getJson(url)
             withContext(Dispatchers.Main) {
