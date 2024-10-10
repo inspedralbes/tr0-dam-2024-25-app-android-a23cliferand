@@ -1,7 +1,7 @@
 package com.example.tr0_dam_2024_25_app_android_a23cliferand.data
 
 import android.util.Log
-import com.example.tr0_dam_2024_25_app_android_a23cliferand.respuestasSeleccionadas
+import com.example.tr0_dam_2024_25_app_android_a23cliferand.respuestasUser
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -66,7 +66,7 @@ fun sendResponses(url: String): String {
 
         try {
             val outputStream = urlConnection.outputStream
-            outputStream.write(Gson().toJson(respuestasSeleccionadas).toByteArray(Charsets.UTF_8))
+            outputStream.write(Gson().toJson(respuestasUser).toByteArray(Charsets.UTF_8))
             outputStream.flush()
             outputStream.close()
 
@@ -84,6 +84,22 @@ fun sendResponses(url: String): String {
     thread.start()
     thread.join() // Wait for the thread to finish
     return response
+}
+
+fun getGrafics(): String {
+    val url = URL("http://dam.inspedralbes.cat:26969/getGrafics")
+    val connection = url.openConnection() as HttpURLConnection
+    connection.requestMethod = "GET"
+
+    return try {
+        if (connection.responseCode == HttpURLConnection.HTTP_OK) {
+            connection.inputStream.bufferedReader().use { it.readText() }
+        } else {
+            "Error: ${connection.responseCode}"
+        }
+    } finally {
+        connection.disconnect()
+    }
 }
 
 fun main() {

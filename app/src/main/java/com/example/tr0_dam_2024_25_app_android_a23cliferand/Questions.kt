@@ -30,7 +30,7 @@ import kotlinx.coroutines.delay
 
 
 data class RespuestaSeleccionada(val preguntaID: String, val respostaID: Int)
-val respuestasSeleccionadas = mutableListOf<RespuestaSeleccionada>()
+val respuestasUser = mutableListOf<RespuestaSeleccionada>()
 
 
 
@@ -107,13 +107,13 @@ fun Questions(navController: NavController, preguntas: List<Pregunta>) {
                             .height(40.dp)
                             .background(Color.LightGray)
                             .clickable {
-                                respuestasSeleccionadas.add(
+                                respuestasUser.add(
                                     RespuestaSeleccionada(
                                         pregunta.id,
                                         resposta.id
                                     )
                                 )
-                                println(respuestasSeleccionadas)
+                                println(respuestasUser)
 
                                 val siguientePregunta = preguntaActualIndex + 1
                                 if (siguientePregunta < preguntas.size) {
@@ -134,7 +134,7 @@ fun Questions(navController: NavController, preguntas: List<Pregunta>) {
     } else if (!hasNavigated) {
         hasNavigated = true
         for (i in preguntaActualIndex until preguntas.size) {
-            respuestasSeleccionadas.add(RespuestaSeleccionada(preguntas[i].id, 0))
+            respuestasUser.add(RespuestaSeleccionada(preguntas[i].id, 0))
         }
         navController.navigate("final")
     }

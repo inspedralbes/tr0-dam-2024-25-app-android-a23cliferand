@@ -43,6 +43,7 @@ fun Final(navController: NavController) {
             hasSentResponses = true
             Log.d("Final", "Sending responses")
             val jsonResponse = sendResponses("http://a23cliferand.dam.inspedralbes.cat:26969/putRespostes")
+            //println(getGrafics())
             val resultao = gson.fromJson(jsonResponse, Resultao::class.java)
             correctes = resultao.correctes
             incorrectes = resultao.incorrectes
