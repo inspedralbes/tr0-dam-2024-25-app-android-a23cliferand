@@ -2,6 +2,8 @@ package com.example.tr0_dam_2024_25_app_android_a23cliferand.data
 
 import android.util.Log
 import com.example.tr0_dam_2024_25_app_android_a23cliferand.respuestasUser
+import com.example.tr0_dam_2024_25_app_android_a23cliferand.uniqueId
+import com.example.tr0_dam_2024_25_app_android_a23cliferand.url
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -15,6 +17,7 @@ import java.net.URL
 import kotlinx.serialization.Serializable
 import java.io.OutputStream
 import java.net.SocketException
+import java.util.UUID
 
 
 @Serializable
@@ -86,24 +89,9 @@ fun sendResponses(url: String): String {
     return response
 }
 
-fun getGrafics(): String {
-    val url = URL("http://dam.inspedralbes.cat:26969/getGrafics")
-    val connection = url.openConnection() as HttpURLConnection
-    connection.requestMethod = "GET"
-
-    return try {
-        if (connection.responseCode == HttpURLConnection.HTTP_OK) {
-            connection.inputStream.bufferedReader().use { it.readText() }
-        } else {
-            "Error: ${connection.responseCode}"
-        }
-    } finally {
-        connection.disconnect()
-    }
-}
-
 fun main() {
-    val url = "http://a23cliferand.dam.inspedralbes.cat:26969/getQuestionsAndroid"
+    uniqueId =  UUID.randomUUID().toString();
+    url = url + "/" + uniqueId
     val result = getJson(url);
     print(result)
 }

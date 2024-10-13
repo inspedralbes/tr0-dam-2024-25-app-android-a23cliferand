@@ -13,14 +13,16 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.UUID
 
-val url = "http://a23cliferand.dam.inspedralbes.cat:26969/getQuestionsAndroid"
+var url = "http://192.168.1.137:26969/getQuestionsAndroid"
 var preguntes = emptyList<Pregunta>()
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         CoroutineScope(Dispatchers.IO).launch {
+            url = url + "/" + UUID.randomUUID().toString()
             preguntes = getJson(url)
             withContext(Dispatchers.Main) {
                 setContent {

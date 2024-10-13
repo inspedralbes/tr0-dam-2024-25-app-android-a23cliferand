@@ -1,5 +1,6 @@
 package com.example.tr0_dam_2024_25_app_android_a23cliferand
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -26,7 +27,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.tr0_dam_2024_25_app_android_a23cliferand.data.getJson
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.util.UUID
 
 
 data class RespuestaSeleccionada(val preguntaID: String, val respostaID: Int)
@@ -35,6 +42,7 @@ val respuestasUser = mutableListOf<RespuestaSeleccionada>()
 
 
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun Questions(navController: NavController, preguntas: List<Pregunta>) {
     var preguntaActualIndex by remember { mutableStateOf(0) }
@@ -42,7 +50,6 @@ fun Questions(navController: NavController, preguntas: List<Pregunta>) {
     var remainingTime by remember { mutableStateOf(30) }
     var hasNavigated by remember { mutableStateOf(false) }
 
-    // LaunchedEffect to start the timer
     LaunchedEffect(Unit) {
         while (remainingTime > 0) {
             delay(1000L)
