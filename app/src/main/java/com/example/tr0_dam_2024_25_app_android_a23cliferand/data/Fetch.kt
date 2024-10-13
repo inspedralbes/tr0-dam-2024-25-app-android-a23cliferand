@@ -2,7 +2,6 @@ package com.example.tr0_dam_2024_25_app_android_a23cliferand.data
 
 import android.util.Log
 import com.example.tr0_dam_2024_25_app_android_a23cliferand.respuestasUser
-import com.example.tr0_dam_2024_25_app_android_a23cliferand.uniqueId
 import com.example.tr0_dam_2024_25_app_android_a23cliferand.url
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
@@ -90,8 +89,6 @@ fun sendResponses(url: String): String {
 }
 
 fun main() {
-    uniqueId =  UUID.randomUUID().toString();
-    url = url + "/" + uniqueId
     val result = getJson(url);
     print(result)
 }
