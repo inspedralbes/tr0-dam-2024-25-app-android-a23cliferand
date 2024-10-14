@@ -45,7 +45,7 @@ fun MainMenu(navController: NavController) {
             Questions(navController, loadedQuestions!!)
         }
     } else {
-        val image = painterResource(R.drawable.rajoy)
+        val image = painterResource(R.drawable.questions)
 
         Column(
             modifier = Modifier

@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.UUID
 
-var url = "http://192.168.1.137:26969/getQuestionsAndroid"
+var url = "http://dam.inspedralbes.cat:26969/getQuestionsAndroid"
 var preguntes = emptyList<Pregunta>()
 
 class MainActivity : ComponentActivity() {

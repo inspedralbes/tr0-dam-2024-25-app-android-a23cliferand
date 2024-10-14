@@ -33,7 +33,7 @@ data class Resultao(val correctes: Int = 0, val incorrectes: Int = 0)
 @Composable
 fun Final(navController: NavController) {
     val gson = Gson()
-    var image: Painter = painterResource(R.drawable.rajoy)
+    var image: Painter = painterResource(R.drawable.mal)
     var correctes by remember { mutableStateOf(0) }
     var incorrectes by remember { mutableStateOf(0) }
     var hasSentResponses by remember { mutableStateOf(false) }
@@ -42,7 +42,7 @@ fun Final(navController: NavController) {
         if (!hasSentResponses) {
             hasSentResponses = true
             Log.d("Final", "Sending responses")
-            val jsonResponse = sendResponses("http://192.168.1.137:26969/putRespostes")
+            val jsonResponse = sendResponses("http://dam.inspedralbes.cat:26969/putRespostes")
             //println(getGrafics())
             val resultao = gson.fromJson(jsonResponse, Resultao::class.java)
             correctes = resultao.correctes
@@ -52,10 +52,10 @@ fun Final(navController: NavController) {
 
     var text = "Resultats"
     if (correctes >= incorrectes) {
-        image = painterResource(R.drawable.rajoy)
+        image = painterResource(R.drawable.bien)
         text = "Has ganao!"
     } else if ((correctes < incorrectes)) {
-        image = painterResource(R.drawable.sanchez)
+        image = painterResource(R.drawable.mal)
         text = "Has perdio!"
     }
 
